@@ -12,35 +12,61 @@ public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	float x, y;
-	TextureRegion stand;
+	TextureRegion upish, downish, rightish, leftish;
+	boolean faceRight, faceLeft;
 
     static final int TILEWIDTH = 16;
     static final int TILEHEIGHT = 16;
+
+    static final int WIDTH = 18;
+    static final int HEIGHT = 26;
+
+    static final int DRAW_WIDTH = WIDTH*5;
+    static final int DRAW_HEIGHT = HEIGHT*5;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		img = new Texture("badlogic.jpg"); //tried to change badlogic.jpg -> tiles.png
 
 		Texture tiles = new Texture("tiles.png");
 		TextureRegion[][] grid = TextureRegion.split(tiles, TILEWIDTH, TILEHEIGHT);
-		TextureRegion down = grid[6][0];
-		TextureRegion up = grid[6][1];
+		downish = grid[6][0];
+        upish = grid[6][1];
+        rightish = grid[6][2];
+        leftish = grid[6][3];
 		TextureRegion right = grid[6][3];
 		TextureRegion left = new TextureRegion(right);
 		left.flip(true, false);
-		//stand = tiles[0][0];
 	}
 
 	@Override
 	public void render () {
 	    move();
-        //x++;
+        //x++; these two just increment the image indefinitely
         //y++;
+
+        TextureRegion img;
+        //use a while loop in place of 'y > 0', so that the character faces the screen UNLESS moving upward
+        if (y > 0) {
+            img = upish;
+        }
+        else {
+            img = downish;
+        }
+
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(img, x, y);
+		//attempting to change character image to appropriate facing direction
+		if (faceRight) {
+		    batch.draw(img,x,y,DRAW_WIDTH,DRAW_HEIGHT);
+        }
+        else {
+		    batch.draw(img,x + DRAW_WIDTH,y,DRAW_WIDTH*-1,DRAW_HEIGHT);
+        }
+
+		//batch.draw(img, x, y); // x, = start location
 		batch.end();
 	}
 	
@@ -50,14 +76,13 @@ public class MyGdxGame extends ApplicationAdapter {
 		img.dispose();
 	}
 
+	//gets character to move about the screen
 	void move() {
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             y++;
-            System.out.println("Dpad Up pressed");
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             y--;
-            System.out.println("Dpad Down pressed");
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             x++;
