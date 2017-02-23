@@ -21,10 +21,10 @@ public class MyGdxGame extends ApplicationAdapter {
 	TextureRegion[][] grid;
 	TextureRegion[][] grid2;
 	TextureRegion zombieImg;
-	TextureRegion down, up, right, left, leftWalk, upWalk, downWalk, tree, zombieDown, zombieUp, zombieRight, zombieLeft, zombieDownWalk, zombieUpWalk, zombieRightWalk, zombieLeftWalk;
+	TextureRegion down, up, right, left, leftWalk, upWalk, downWalk, tree, zombieDown, zombieUp, zombieRight, zombieLeft, zombieDownWalk, zombieUpWalk, zombieRightWalk, zombieLeftWalk, heart;
 	Animation walkUp, walkDown, walkRight, walkLeft, zombieWalkUp, zombieWalkDown, zombieWalkRight, zombieWalkLeft;
-	float time;
-	int direction, heartCount;
+	float time, heartCount;
+	int direction;
 	float x, y, xv, yv, zombieX, zombieY, zombieSX, zombieSY, treeX, treeY;
 	boolean zombieStarted = false;
 
@@ -44,6 +44,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		Texture tiles = new Texture("tiles.png");
 		grid = TextureRegion.split(tiles, 16, 16);
 		grid2 = TextureRegion.split(tiles,9, 8);
+		heart = new TextureRegion(grid[0][5]);
 		tree = new TextureRegion(grid[1][0]);
 		treeRandom();
 		zombieRandom();
@@ -111,7 +112,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			zombieY = zombieSY;
 			batch.draw(zombieImg, zombieSX, zombieSY, DRAW_WIDTH, DRAW_HEIGHT);
 		}
-
+		heartDraw();
 		batch.draw(img, x, y, DRAW_WIDTH, DRAW_HEIGHT);
 		batch.end();
 	}
@@ -235,8 +236,11 @@ public class MyGdxGame extends ApplicationAdapter {
 			zombieX-=1;
 			zombieImg = zombieWalkLeft.getKeyFrame(time, true);
 		}
-		if (y == zombieY && x == zombieX){
-
+		if (Math.ceil(y) == Math.ceil(zombieY) && Math.ceil(x) == Math.ceil(zombieX)){
+			System.out.println("Reached you!");
+			heartCount--;
+			zombieRandom();
+			zombieStarted = false;
 		}
 	}
 	public void treeRandom(){
@@ -246,5 +250,20 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void zombieRandom(){
 		zombieSX = (float) (Math.random()*350) + 10;
 		zombieSY = (float) (Math.random()*350) + 10;
+	}
+	public void heartDraw(){
+		int i = 1;
+		float xPos = 20;
+		if (heartCount == 0){
+			System.out.println("Game OVER!");
+			batch.end();
+			dispose();
+			System.exit(0);
+		}
+		while (i < heartCount){
+			xPos+=20;
+			batch.draw(heart,xPos, 420, DRAW_WIDTH, DRAW_HEIGHT);
+			i++;
+		}
 	}
 }
