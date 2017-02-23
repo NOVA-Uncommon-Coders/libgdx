@@ -21,7 +21,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	TextureRegion[][] grid;
 	TextureRegion[][] grid2;
 	TextureRegion zombieImg;
-	TextureRegion down, up, right, left, leftWalk, upWalk, downWalk, tree, zombieDown, zombieUp, zombieRight, zombieLeft, zombieDownWalk, zombieUpWalk, zombieRightWalk, zombieLeftWalk, heart;
+	TextureRegion down, up, right, left, leftWalk, upWalk, downWalk, tree, zombieDown, zombieUp, zombieRight, zombieLeft, zombieDownWalk, zombieUpWalk, zombieLeftWalk, heart;
 	Animation walkUp, walkDown, walkRight, walkLeft, zombieWalkUp, zombieWalkDown, zombieWalkRight, zombieWalkLeft;
 	float time, heartCount;
 	int direction;
@@ -98,10 +98,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 		Gdx.gl.glClearColor(1, 150, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 		tileMapRenderer.setView(cam);
 		tileMapRenderer.render();
-
 
 		batch.begin();
 		batch.draw(tree, treeX, treeY, DRAW_WIDTH, DRAW_HEIGHT);
@@ -193,11 +191,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			direction = 3;
 			zombieStarted = true;
 		}
-		//checkPosition();
-
 			y += yv * Gdx.graphics.getDeltaTime();
 			x += xv * Gdx.graphics.getDeltaTime();
-
 			yv = decelerate(yv);
 			xv = decelerate(xv);
 	}
