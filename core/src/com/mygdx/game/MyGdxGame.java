@@ -49,12 +49,13 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		enemyBatch = new SpriteBatch();
 
+
+		camera = new OrthographicCamera();
+		//camera.viewportHeight=590;
+		//camera.viewportWidth=450;
+		camera.setToOrtho(true, 400,400);
 		map = new TmxMapLoader().load("level1.tmx");
 		orthoRenderer= new OrthogonalTiledMapRenderer(map);
-		camera = new OrthographicCamera();
-		camera.viewportHeight=590;
-		camera.viewportWidth=450;
-
 //		fieldMap=new TmxMapLoader();
 //
 //		fieldMap.load("level1.tmx");
@@ -139,11 +140,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		move();
 		enemyMove();
 
-		camera.update();
+		//camera.update();
 
-		orthoRenderer.render();
 
-		orthoRenderer.setView(camera);
+
+
 
 
 		if (Gdx.input.isKeyPressed(Input.Keys.UP)){
@@ -169,7 +170,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+		orthoRenderer.setView(camera);
+		orthoRenderer.render();
 		batch.begin();
 		batch.draw(playerImg, x, y, DRAW_WIDTH, DRAW_HEIGHT);
 		batch.end();
