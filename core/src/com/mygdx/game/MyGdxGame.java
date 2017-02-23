@@ -85,23 +85,28 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	//gets character to move about the screen
 	void move() {
+        float rate = 0;
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            //rate = *10;
+            rate = 6;
         }
 	    if (Gdx.input.isKeyPressed(Input.Keys.UP) /*&& Gdx.input.isKeyPressed(Input.Keys.SPACE)*/) {
             y++;
+            y+=rate;
             directionality = 'u';
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
              y--;
+             y+=rate*-1;
             directionality = 'd';
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             x++;
+            x+=rate;
             directionality = 'r';
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             x--;
+            x+=rate*-1;
             directionality = 'l';
         }
     }
