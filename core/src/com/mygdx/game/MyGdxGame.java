@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-	float x, y, zv;
+	float x, y;
 	char directionality;
 	TextureRegion upish, downish, rightish, leftish;
 	boolean faceRight = true;
@@ -48,7 +48,6 @@ public class MyGdxGame extends ApplicationAdapter {
         TextureRegion img;
 
         switch (directionality) {
-
             case 'u':
                 img = upish;
                 break;
@@ -65,7 +64,6 @@ public class MyGdxGame extends ApplicationAdapter {
                 img = downish;
                 break;
         }
-
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
@@ -91,23 +89,37 @@ public class MyGdxGame extends ApplicationAdapter {
         }
 	    if (Gdx.input.isKeyPressed(Input.Keys.UP) /*&& Gdx.input.isKeyPressed(Input.Keys.SPACE)*/) {
             y++;
+            //System.out.println(y); 471
             y+=rate;
             directionality = 'u';
+                if(y >= 471) {
+                y = 0;
+                }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-             y--;
-             y+=rate*-1;
+            y--;
+            y+=rate*-1;
             directionality = 'd';
+                if(y < -120) {
+                y = 471;
+                }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             x++;
+            System.out.println(x); //622 -71
             x+=rate;
             directionality = 'r';
+                if(x >= 622) {
+                x = 0;
+                }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             x--;
             x+=rate*-1;
             directionality = 'l';
+                if(x < -71) {
+                x = 622;
+                }
         }
     }
 }
