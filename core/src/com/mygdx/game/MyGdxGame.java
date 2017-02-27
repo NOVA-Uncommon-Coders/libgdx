@@ -23,7 +23,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	static final int DRAW_WIDTH = WIDTH * 5;
 	static final int DRAW_HEIGHT = HEIGHT * 5;
 	static final float MAX_JUMP_VELOCITY = 2000;
-	static final int GRAVITY = -50;
+	//static final int GRAVITY = -50;
 
 	TextureRegion down, up, right, left;
 
@@ -64,8 +64,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			batch.begin();
 			if (faceRight) {
 				batch.draw(right, x, y, DRAW_WIDTH, DRAW_HEIGHT);
-			} else {
-				batch.draw(left, y, x,  DRAW_WIDTH  , DRAW_HEIGHT);
+			} else  {
+				batch.draw(left, x +  DRAW_WIDTH ,y, DRAW_WIDTH * -1, DRAW_HEIGHT);
 			}
 			batch.end();
 		}
@@ -89,10 +89,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	void move() {
 		if (Gdx.input.isKeyPressed(Input.Keys.UP) && canFlip) {
-			xv = MAX_JUMP_VELOCITY;
-			canFlip = true;
+			yv = MAX_JUMP_VELOCITY;
+			canFlip = false;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+			yv = MAX_VELOCITY * -1;
 
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
@@ -110,11 +111,19 @@ public class MyGdxGame extends ApplicationAdapter {
 		x += xv * Gdx.graphics.getDeltaTime();
 
 		if (y < 0) {
-			y = 0;
-			canFlip = false;
+            y = 0;
+            canFlip = true;
+
+        } else if(x < 0){
+			    x = 0;
+			    faceRight = true;
+            }
+
+            yv = decelerate(yv);
+            xv = decelerate(xv);
+
 		}
 
-		yv = decelerate(yv);
-		xv = decelerate(xv);
+
 	}
-}
+
