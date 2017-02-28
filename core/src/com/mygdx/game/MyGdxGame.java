@@ -14,7 +14,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	Texture m;
 	TextureRegion stand, flip;
 	float x, y, xv, yv;
-	boolean canFlip, faceRight = true;
+	boolean faceLeft, faceRight = true;
 	Animation walk;
 	float time;
 	static final float MAX_VELOCITY = 500;
@@ -64,8 +64,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			batch.begin();
 			if (faceRight) {
 				batch.draw(right, x, y, DRAW_WIDTH, DRAW_HEIGHT);
-			} else  {
-				batch.draw(left, x +  DRAW_WIDTH ,y, DRAW_WIDTH * -1, DRAW_HEIGHT);
+			} else if (faceLeft) {
+				batch.draw(left, x,y,  DRAW_WIDTH, DRAW_HEIGHT);
 			}
 			batch.end();
 		}
@@ -88,9 +88,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	void move() {
-		if (Gdx.input.isKeyPressed(Input.Keys.UP) && canFlip) {
-			yv = MAX_JUMP_VELOCITY;
-			canFlip = false;
+		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+			yv = MAX_VELOCITY;
+
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 			yv = MAX_VELOCITY * -1;
@@ -112,10 +112,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		if (y < 0) {
             y = 0;
-            canFlip = true;
+            faceLeft = true;
 
         } else if(x < 0){
-			    x = 0;
+			    x = 3;
 			    faceRight = true;
             }
 
