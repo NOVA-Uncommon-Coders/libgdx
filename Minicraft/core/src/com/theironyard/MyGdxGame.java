@@ -21,11 +21,12 @@ public class MyGdxGame extends ApplicationAdapter {
 	static final float MAX_VELOCITY = 500;
 	static final int GRAVITY = -50;
 
-	static final int WIDTH = 18;
-	static final int HEIGHT = 26;
+	static final int WIDTH = 15;
+	static final int HEIGHT = 15;
 
 	static final int DRAW_WIDTH = WIDTH*3;
 	static final int DRAW_HEIGHT = HEIGHT*3;
+
 
 
 
@@ -40,8 +41,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	TextureRegion down;
 
 	boolean canBlock;
+	boolean returnRight;
 
-
+	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -72,15 +74,15 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (faceRight) {
 			batch.draw(right, x, y, DRAW_WIDTH, DRAW_HEIGHT);
 		}
-		else if (faceLeft) {
+			else if (faceLeft) {
 			batch.draw(left, x, y, DRAW_WIDTH, DRAW_HEIGHT);
-		}
-		else if (faceUp) {
+			}
+			else if (faceUp) {
 			batch.draw(up, x, y, DRAW_WIDTH, DRAW_HEIGHT);
-		}
-		else  {
+			}
+			else  {
 			batch.draw(down, x, y, DRAW_WIDTH, DRAW_HEIGHT);
-		}
+			}
 		batch.end();
 
 	}
@@ -124,9 +126,9 @@ public class MyGdxGame extends ApplicationAdapter {
 //		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 //			xv = MAX_VELOCITY * -1;
 //		}
-		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && canBlock) {
+		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && returnRight) {
 			xv = MAX_VELOCITY;
-			canBlock = true;
+			returnRight = true;
 			faceRight = true;
 			faceLeft = false;
 			faceUp = false;
@@ -140,15 +142,21 @@ public class MyGdxGame extends ApplicationAdapter {
 			faceDown = false;
 		}
 
-		xv += GRAVITY;
+//		xv += GRAVITY;
 
 		y += yv * Gdx.graphics.getDeltaTime();
 		x += xv * Gdx.graphics.getDeltaTime();
 
-		if (x < 0) {
-			x = 0;
-			canBlock = true;
+
+
+		if (x > 630) {
+			x = -10;
 		}
+//		if (y < 0) y = HEIGHT;
+//		if (y > HEIGHT) y = 0;
+
+			returnRight = true;
+
 
 
 		yv = decelerate(yv);
